@@ -1,0 +1,30 @@
+fn main() {
+    /* i32 */
+    let mut num=Point{x:12,y:88};
+    let rel=num.add(190).get();
+    println!("{:?}",rel);
+
+    /* f64 */
+    let mut num=Point{x:12.2,y:88.8};
+    let rel=num.add(200.8).get();
+    println!("{:?}",rel);
+}
+#[derive(Debug)]
+struct Point<T>{
+    x:T,
+    y:T
+}
+trait Math<T>{
+    fn add(&mut self,nu:T)->&mut dyn Math<T>;
+    fn get(&self)->&Point<T>;
+}
+impl<T: std::ops::AddAssign+Copy> Math<T> for Point<T>{
+    fn add(&mut self,nu:T)->&mut dyn Math<T>{
+        self.x+=nu;
+        self.y+=nu;
+        return self;
+    }
+    fn get(&self)->&Point<T>{
+        return self;
+    }
+}
