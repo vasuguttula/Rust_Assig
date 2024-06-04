@@ -1,0 +1,29 @@
+fn main() {
+    let mut num=General{num:12};
+    let rel=num.add(10).add(100).get();
+    println!("{}",rel);
+    /* f64 */
+    let mut num=General{num:12.0};
+    let rel=num.add(10.0).add(100.6).get();
+    println!("{}",rel);
+
+}
+#[derive(Debug)]
+struct General<T>{
+    num:T
+}
+//#[derive(Debug)]
+trait Math<T>{
+    fn add(&mut self,a:T)->&mut dyn Math<T>;
+    fn get(&self)->T;
+}
+impl<T:std::ops::AddAssign+Copy> Math<T> for General<T>
+{
+    fn add(&mut self,a:T)->&mut dyn Math<T>{
+        self.num+=a;
+        return self
+    }
+    fn get(&self)->T{
+        self.num
+    }
+}
